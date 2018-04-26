@@ -1,0 +1,114 @@
+<html ng-app="tfApp"> <!-- layout.toffee -->
+  <head>
+    <title>#{title}</title>
+
+    <meta property="fb:app_id" content="911101582335475" />
+    <meta property="og:url" content="/#{roomID}" />
+    <meta property="og:description" content="#{description}" />
+    <meta property="og:title" content="#{title}" />
+    <meta property="og:image" content="/images/Dj-Club-Mix-Girl-2015-Wallpaper.jpg" />
+    <meta property="og:site_name" content="CrowdSound" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="#{title}" />
+    <meta property="twitter:description" content="#{description}" />
+    <meta property="twitter:image" content="/images/Dj-Club-Mix-Girl-2015-Wallpaper.jpg" />
+    <meta property="twitter:site" content="@CrowdSound" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Custom Icons -->
+    <link rel="stylesheet" href="/style/icons/icons.css">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100|Open+Sans:300' rel='stylesheet' type='text/css'>
+
+    <!-- Electron -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+    <!-- JQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- CSS Tag -->
+
+    <link rel="stylesheet" type="text/css" href="/style/main.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/style/canvas.css"> -->
+
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+
+    <script>
+        switch (window.location.hostname) {
+          case "localhost":
+          case "127.0.0.1":
+          case "192.168.0.108":
+            var ENV = "dev";
+            break;
+          case "crowdsounde.herokuapp.com":
+          case "crowdsounde.herokuapp.com":
+            var ENV = "production";
+            break;
+          default:
+            throw('Unknown environment: ' + window.location.hostname );
+        }
+    </script>
+
+
+  </head>
+
+  <body>
+    <!-- soundcloud -->
+    <script src="//connect.soundcloud.com/sdk.js"></script>
+
+
+    <!-- Load actual body -->
+    #{raw body}
+
+    <!-- Would load navbar here too -->
+
+    <nav>
+      <li><a href="/">CrowdSound</a></li>
+    </nav>
+
+
+
+
+    <!-- Javascript and the Like -->
+
+    <!-- Local Javascript Tags -->
+    <script src="/search.js"></script>
+
+
+
+    <script type="text/javascript" src="/script/vendor/async-min.js"></script>
+    <script type="text/javascript" src="/script/vendor/underscore-min.js"></script>
+
+
+    <!-- youtube -->
+    <script src="//apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
+    <script src="/script/tf-app.js"></script>
+    <script src="/script/vendor/angular-drag-and-drop-lists.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+        if (ENV === 'production') {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-71677148-1', 'auto');
+            ga('send', 'pageview');
+        }
+    </script>
+
+  </body>
+
+  <!-- Electron -->
+  <script>if (window.module) module = window.module;</script>
+
+</html>

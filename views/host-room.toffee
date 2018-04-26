@@ -1,0 +1,172 @@
+<!-- room.toffee -->
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="/playlist.js"></script>
+<script src="/script/controllers/playlistController.js"></script>
+<script>
+  var host = #{host};
+  var roomID = "#{roomID}";
+  var roomName = "#{roomName}";
+  var playlistSettings = #{playlistSettings};
+  var loadPlaylist =  function () {
+    var scope = angular.element($("body")).scope();
+    var url = window.location.host + '/' + roomID
+    $('#share-link').val(url);
+    $('.fb-share-button').attr('href','https://www.facebook.com/sharer/sharer.php?u=https://' + url);
+    $('.twitter-share-button').attr('href', 'http://twitter.com/share?url=https://' + url + '&amp;text=Come join our CrowdSound room and jam out!');
+    $.get('/' + roomID + '/enabled', function (data) {
+      if (ENV == 'dev')
+        console.log(data);
+      if (data.youtube && data.soundcloud && data.local) {
+        scope.startApp();
+      }
+      (scope.$$phase || scope.$root.$$phase) ? (scope.apis_loaded = data) : scope.$apply(scope.apis_loaded = data);
+    })
+  }
+</script>
+<script src="/script/vendor/musicmetadata.js"></script>
+<script src="/script/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+<script src="/setup.js"></script>
+<body ng-controller="PlaylistController" data-ng-keydown="shortcut($event)">
+  <input type="file" id="inputFiles" multiple webkitdirectory directory accept="audio/*" style="display:none;" onchange="handleFiles(this.files)">
+  <div ng-if="isLoading" id="loader" ng-cloak>
+    <ul><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+    <p>Soundcloud <i ng-if="apis_loaded.soundcloud" class="fa fa-check"></i>
+      <i ng-if="!apis_loaded.soundcloud" class="fa fa-spinner fa-pulse"></i></p>
+    <p>Youtube <i ng-if="apis_loaded.youtube" class="fa fa-check"></i>
+      <i ng-if="!apis_loaded.youtube" class="fa fa-spinner fa-pulse"></i></p>
+    <p id="uploadText">Use your own music library! <i ng-class="{'fa-upload clickable hover-purple': !isUploading, 'fa-spinner fa-pulse': isUploading}" class="fa" ng-click="loadLocalSongs()"></i></p>
+    <input type="button" class="clickable" value="Continue" ng-click="startApp()"/>
+  </div>
+  <div class="content" ng-hide="isLoading" ng-cloak>
+    <div class="search-container">
+      <i class="search-loading fa fa-2x" ng-click="query = ''; mode = 'playlist'" ng-class="{'fa-times clickable': !isSearchLoading && query.length > 0, 'fa-spinner fa-spin': isSearchLoading}"></i>
+      <span>
+        <input ng-model="query" type="text" name="search"
+        placeholder = 'Type to search'
+        ng-keyup="triggerSearch($event.which == 13)"
+        ng-focus="triggerSearch()"
+        ng-submit="triggerSearch()"
+        id = 'first_search' autofocus autocomplete="off">
+      </span>
+    </div>
+    <div class="getting-started" ng-show="playlist.playlist.length == 0 && mode !== 'search'">
+      <h1>Getting Started</h1>
+      <ol>
+        <li>Search for a song you would like to add</li>
+        <li>Add it to the playlist</li>
+        <li>Share the link to your room</li>
+      </ol>
+    </div>
+    <div id="player" ng-hide="playlist.playlist.length == 0" ng-style="playerColor" ng-mouseenter="changeColor(true)" ng-mouseleave="changeColor(false)" ng-class="{clickable: mode == 'search'}" ng-click="mode = 'playlist'; changeColor()">
+      <div id="top-line">
+        <div id="buttons">
+          <div ng-hide="playlist.autoplay"><i ng-click="prev()" class="hover-purple clickable fa fa-fast-backward"></i></div>
+          <div><i class="clickable hover-purple fa" ng-click="play()"ng-class="{'fa-play': playlist.state === 2 || playlist.state === 0, 'fa-pause': playlist.state === 1, 'fa-spinner fa-spin': playlist.state === 3}"></i></div>
+          <div><i ng-click="next()" class="clickable hover-purple fa fa-fast-forward"></i></div>
+        </div>
+
+        <div class="right-buttons">
+          <i class="clickable hover-purple no-margin fa fa-arrows-alt" data-ng-click="toggleFullScreen()"></i>
+          <div id="volume" data-ng-mouseenter="volumeShow = true" data-ng-mouseleave="volumeShow = false" data-ng-mouseup="playlist.setVolume()">
+            <input data-ng-show="volumeShow" type="range" min="0" max="100" data-ng-model="playlist.volume" value="{{playlist.volume}}">
+            <i class="fa fa-volume-up"></i>
+          </div>
+          <i ng-show="playlist.autoplay" ng-click="addAutoplay()" class="fa fa-plus clickable hover-purple"></i>
+        </div>
+        <div id="details">
+          <span ng-hide="playlist.autoplay">{{playlist.playlist[playlist.currentIndex].song_details.title}}<span ng-if="playlist.playlist[playlist.currentIndex].song_details.artist"> - {{playlist.playlist[playlist.currentIndex].song_details.artist}}</span></span>
+          <span ng-show="playlist.autoplay">{{playlist.autoplay.title}}<span ng-if="playlist.autoplay.artist"> - {{playlist.autoplay.artist}}</span></span>
+        </div>
+      </div>
+      <div class="progress" ng-hide="playlist.autoplay">
+        <progress id="seekbar" class="clickable" value="0" max="100" ng-click="seek($event)"></progress>
+      </div>
+    </div>
+    <div data-ng-show="((playlist.playlist[playlist.currentIndex].song_details.type == 'youtube' && !playlist.autoplay) || playlist.autoplay.type == 'youtube') && mode == 'playlist' && playlist.state !== 0" >
+      <div id="yt_player"></div>
+    </div>
+    <ul id = "result_list" ng-hide="results.length == 0 || mode !== 'search'">
+      <div ng-repeat = "(type, result) in results">
+        <li class = 'seperator' ng-show="result" >{{type}}
+          <span ng-hide="expandSearch" ng-click="expandResults(type)">More</span>
+          <span ng-show="expandSearch" ng-click="expandResults()">Back</span>
+        </li>
+        <div ng-repeat="item in result.collections">
+          <li class='result' ng-hide="!expandSearch && $index > 2">
+            <div class="art">
+              <img ng-src='{{item.artwork_small || item.artwork_url}}' />
+            </div>
+            <div class="details">
+              <h2><a ng-href='{{item.permalink_url}}' target='_blank'>{{item.title}}</a></h2>
+              <span>{{item.artist || ""}}</span>
+              <br />
+              <a class='add_button add_to_playlist'ng-click="add(item)">Add to Playlist</a>
+              <a class='add_button play_now' ng-click="playNow(item)">Play Now</a>
+            </div>
+          </li>
+        </div>
+      </div>
+      <li class = 'infiniteLoading' ><span ng-show="expandSearch"><i class="fa fa-spinner fa-spin"></i> Loading ...</span></li>
+    </ul>
+
+    <div id="playlist" ng-hide="playlist.playlist.length == 0 || mode !== 'playlist'">
+      <ul dnd-list="playlist.playlist"
+      dnd-drop="dropCallback(index, item)">
+        <li class="hover clickable" ng-repeat="song in playlist.playlist track by song.song_details.uuid" ng-click="playlist.goTo($index)"
+        ng-mouseenter="songHover = true" ng-mouseleave="songHover = false"
+        dnd-draggable="song" dnd-dragstart="from.index = $index" dnd-effect-allowed="move">
+          <span class="song-icons" style="float:right" ng-show="songHover">
+            <a ng-click="stopPropagation($event)" href="{{song.song_details.permalink_url}}" target="_blank" title="Go to song on {{song.song_details.type}}">
+              <i data-ng-class="{
+                'fa fa-youtube-play': song.song_details.type === 'youtube',
+                'fa fa-soundcloud': song.song_details.type === 'soundcloud',
+                'icon-rdio': song.song_details.type === 'rdio'
+              }"></i>
+            </a>
+            <i class="fa clickable hover-purple fa-search" ng-click="searchSimilar($event, $index)"></i>
+            <i ng-if="song.user !== playlist.sessionID" ng-click="banModal($event, $index)" class="hover-purple clickable fa fa-ban"></i>
+            <i ng-click="remove($index, $event)" class="hover-purple clickable fa fa-times"></i>
+          </span>
+          <span class="song-details">
+            <i ng-show="$index == playlist.currentIndex && !playlist.autoplay" class="fa fa-play"></i>
+            <i ng-show="song.song_details.error" class="fa fa-exclamation-triangle"></i>
+            <span class="hover-purple icon-30" ng-if="song.song_details.type =='rdio' && !rdio_user" data-ng-click="openModal($event,'rdio')"></span>
+            {{song.song_details.title}}<span ng-if="song.song_details.artist"> - {{song.song_details.artist}}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div id="autoplay" ng-show="playlist.autoplay && mode == 'playlist'" ng-mouseenter="autoplayHover = true" ng-mouseleave="autoplayHover = false">
+      <span class="song-icons" style="float:right" ng-show="autoplayHover">
+        <a ng-click="stopPropagation($event)" href="{{playlist.autoplay.permalink_url}}" target="_blank" title="Go to song on {{playlist.autoplay.type}}">
+          <i data-ng-class="{
+            'fa fa-youtube-play': playlist.autoplay.type === 'youtube',
+            'fa fa-soundcloud': playlist.autoplay.type === 'soundcloud',
+            'icon-rdio': playlist.autoplay.type === 'rdio'
+          }"></i>
+        </a>
+        <i class="fa clickable hover-purple fa-search" ng-click="searchSimilar($event, 'autoplay')"></i>
+        <i ng-click="addAutoplay()" class="fa fa-plus clickable hover-purple"></i>
+      </span>
+      <span class="over-container">
+        <div>
+          <i class="fa fa-random"></i> <i class="fa fa-play"></i> {{playlist.autoplay.title}}<span ng-if="playlist.autoplay.artist"> - {{playlist.autoplay.artist}}</span>
+        </div>
+      </span>
+    </div>
+  </div>
+  <div class="share" ng-hide="isLoading" ng-cloak>
+    <h3>Share this link to invite anyone:</h3><input id="share-link" onclick="this.select();" type="text">
+    <a href="" target="_blank" class="fb-share-button"><i class="fa fa-facebook-square fa-lg"></i></a>
+    <a href="" target="_blank" class="twitter-share-button"><i class="fa fa-twitter-square fa-lg"></i></a>
+    <i class="uploadButton fa" ng-class="{'fa-upload clickable hover-purple': !isUploading, 'fa-spinner fa-pulse': isUploading}" ng-click="loadLocalSongs()"></i>
+  </div>
+  <div ng-cloak>
+    <div class="modal-view" data-ng-show="modals[0]"></div>
+  </div>
+  <!-- For Rdio -->
+  <div id="rdio_player"></div>
+
+
+</body>

@@ -1,0 +1,54 @@
+<!-- launch.toffee -->
+<div class="black-background">
+    <section id="create">
+        <div class="launch-container">
+            <div class="create-room-container">
+                <input id="createRoomName" type="text" placeholder="Room Name (optional)" maxlength="20" autofocus>
+                <span class="warning" id="createWarning" hidden>This room name already exists</span>
+                <input type="button" class="launch-button" value="Create" onclick="submit()">
+            </div>
+        <div>
+    </section>
+    <section id="about">
+        <h1>Music, Your Way.</h1>
+        <div class="info">
+            <div>
+                <i class="fa fa-laptop fa-5x"></i><i class="fa fa-volume-up fa-2x"></i><i class="fa fa-wifi fa-3x"></i><i class="fa fa-mobile fa-5x"></i>
+            </div>
+            <p>Host a playlist on CrowdSound that guests can join and add songs to just by clicking a link!  Guest are happy that they contribute to the musical experience and you can enjoy the party!</p>
+            <p style="margin-top: 1em;">Build playlist with songs from <a class="black-link" href="https://soundcloud.com" target="_blank">Soundcloud</a>, <a class="black-link" href="https://youtube.com" target="_blank">Youtube</a>, and your own music collection so no more jumping between applications!</p>
+            <p>
+        </div>
+    </section>
+    <section id="accounts">
+        <div class="info">
+            <h1>Accounts - Coming soon</h1>
+            <h2>What are the benefits of having a CrowdSound account?</h2>
+            <div>
+                <p>With an account you can...</p>
+                <ul>
+                    <li>Save playlists</li>
+                    <li>Control a room remotely</li>
+                    <li>Favorite tracks</li>
+                </ul>
+            </div>
+        </div>
+        <input type="button" class="launch-button" value="Sign up">
+    </section>
+    <section id="contact">
+        <div class="info"><h2>Follow <a href="https://twitter.com/CrowdSound">@CrowdSound</a> for updates</h2></div>
+    </section>
+    <div class="footer">
+        <span><a href="mailto:crowdsound@gmail.com">email</a> | <a href="https://twitter.com/crowdsound">twitter</a> | <a href="https://github.com/nirholas/crowdsound">github</a></span><br />
+        <span class="copyright">© CrowdSound 2017</span>
+    </div>
+
+</div>
+<script src="/launch.js"></script>
+<script>
+if (window.location.hash) {
+    $('html, body').animate({
+        scrollTop: $( window.location.hash ).offset().top
+    }, 500);
+}
+</script>

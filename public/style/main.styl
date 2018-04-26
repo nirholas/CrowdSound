@@ -1,0 +1,786 @@
+// main.styl
+
+grey = #f6f6f6
+purple = #7f00ff
+darkpurple = darken(purple, 60%)
+midpurple = darken(purple, 30%)
+
+link-purple = #A347FF
+black = #333
+transblack = rgba(0,0,0,0.6)
+transblacker = rgba(0,0,0,1)
+radius = 5px
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+transition()
+  transition arguments
+  -webkit-transition arguments
+  -o-transition arguments
+  -moz-transition arguments
+
+*
+  padding 0
+  margin 0
+  font-weight 100
+  // color black
+
+html
+  height 100%
+
+a
+  text-decoration none
+  color white
+  cursor pointer
+  &.black-link
+    color black
+  &:hover
+    color link-purple
+
+body
+  font-size 20px
+  // padding-top 50px
+  background-color f0efef
+  color white
+  font-family "Raleway", helvetica
+  position relative
+  min-height 100%
+
+h1
+  text-align center
+  font-family: 'Roboto';
+  font-size 70px
+  margin-top 25px
+  color: white;
+  padding: 14px;
+
+h4
+  font-family: 'Roboto';
+  font-size 30px
+  font-weight: bold
+
+input
+  background grey
+  font-size 20px
+  outline none
+  border 1px solid black
+  border-radius radius
+  padding 5px
+  display block
+  margin-top 10px
+  color: black
+  font-family "Roboto", helvetica
+
+input[type=range]
+  float right
+  padding 0px
+  margin 0px
+
+nav
+  text-align right
+  background #3B3738
+  padding-right 14px
+  padding-bottom 15px
+  position fixed
+  width 100%
+  top 0px
+  left 0px
+  box-shadow 0 0 5px rgba(0, 0, 0, 0.5)
+
+  a
+    color white
+
+    a:hover
+      color purple
+
+  li
+    font-family courier, "Open Sans"
+    display inline-block
+    position relative
+    padding-top 14px
+    padding-left 20px
+    padding-right 20px
+
+  li:last-child
+    padding-right 20px
+
+  li:first-child
+    padding-left 20px
+    float left
+
+div.content
+  min-width 300px
+  width 80%
+  max-width 700px
+  margin auto
+  padding 110px 0px
+
+.clickable
+  cursor pointer
+
+.hover-purple:hover
+  color link-purple
+
+.black-background
+  background-color black
+
+.hover-view
+  display none
+  &:hover
+    display inherit
+
+.dndDraggingSource
+  display none !important
+
+.fa-exclamation-triangle
+  color red
+
+.warning
+  color red
+
+.no-margin
+  margin 0px !important
+
+//////////////
+//Launch page
+//////////////
+
+input.launch-button
+  background-color #6547D8
+  border-radius 40px
+  border none
+  margin 10px
+  color white
+  font-size 40px
+  padding 10px 35px
+  margin auto
+  margin-top 20px
+  cursor pointer
+  &:hover
+    background-color darkpurple
+
+.launch-container
+  text-align center
+  width 660px
+  margin auto
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+
+  .create-room-container
+    overflow:hidden
+
+input#createRoomName
+  margin auto
+  font-size 55px
+  border 0px
+  border-bottom 2px solid white
+  border-radius 0px
+  color white
+  background-color transparent
+  text-overflow ellipsis
+
+  input_grey = white
+
+  &::-webkit-input-placeholder { /* WebKit browsers */
+    color:    input_grey;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    input_grey;
+    opacity:  1;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    input_grey;
+    opacity:  1;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    input_grey;
+  }
+
+
+
+#createWarning
+  margin-top 10px
+
+#yt_player
+  margin-top 20px
+  width 100%
+  height 400px
+
+section
+  background-size cover
+  overflow:hidden
+  min-height 100vh
+  &#create
+    position relative
+    background-image url("../images/unsplash_52c319226cefb_1.jpeg")
+  &#about
+    min-height 0
+    background-color f0efef
+    h1
+      margin-top 55px
+      color black
+    div.info
+      width 551px
+      text-align center
+      font-family 'Roboto'
+      margin auto
+      margin-top 30px
+      margin-bottom 50px
+      font-size 40px
+      color black
+      padding 20px
+      border-radius 5px
+      p
+        font-size 20px
+        text-align left
+      div
+        position relative
+        width 438px
+        margin auto
+        .fa-volume-up
+          position absolute
+          top 45px
+          left 70px
+        .fa-wifi
+          -ms-transform rotate(270deg) /* IE 9 */
+          -webkit-transform rotate(270deg) /* Chrome, Safari, Opera */
+          transform rotate(270deg)
+          position relative
+          top -28px
+          right -15px
+  &#accounts
+    position relative
+    background-image url('../images/9a2d8cf6.jpeg')
+    div.info
+      text-align left
+      margin 20px
+      margin-top 80px
+      font-family 'Roboto'
+      font-size 22px
+      h1
+        text-align left
+        padding 0px
+        font-size 80px
+      h2
+        padding 20px 0px
+        font-size 38px
+      div
+        margin-left 10px
+        ul
+          padding 25px 42px
+          padding-top 10px
+    .launch-button
+      position absolute
+      bottom 80px
+      left 50%
+      margin-left -82.5px
+  &#contact
+    background-image url('../images/photo-1429962714451-bb934ecdc4ec.jpeg')
+    div.info
+      text-align center
+      height 100%
+      position relative
+      font-family 'Roboto'
+      font-size 22px
+      h2
+        margin-top 500px
+        padding 20px 0px
+        font-size 38px
+        position absolute
+        bottom 10px
+        width 100%
+
+.footer
+  padding 40 0 20
+  font-size 15px
+  text-align center
+  line-height 30px
+  background #212121
+
+  .copyright
+    font-size 13px
+
+
+
+
+//////////////
+//Player page
+//////////////
+
+#loader
+  .fa-check
+    color #49E20E
+  input
+    padding 5px 10px
+    margin auto
+    margin-top 35px
+    &:hover
+      color grey
+      background purple
+      border 0
+  #uploadText
+    padding-top 30px
+  em
+    font-size 12px
+
+div.search-container
+  margin-top 20px
+  border 1px solid black
+  border-radius radius
+  background rgba(255,255,255,0.8)
+  width 100%
+  overflow hidden
+  .search-loading
+    float right
+    margin 23px 15px
+    color rgba(0,0,0,.5)
+  span
+    display block
+    overflow hidden
+    #first_search
+      font-size 40px
+      width 100%
+      padding 20px 20px
+      padding-right 0px
+      color black
+      background rgba(255,255,255,0)
+      border none
+      margin-top 0px
+
+      input_grey = #848484
+
+      &::-webkit-input-placeholder { /* WebKit browsers */
+        color:    input_grey;
+      }
+      &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    input_grey;
+        opacity:  1;
+      }
+      &::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    input_grey;
+        opacity:  1;
+      }
+      &:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    input_grey;
+      }
+
+div.share
+  background-color transblack
+  padding 15px
+  bottom: 0px;
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+  h3
+    display inline-block
+  input
+    background-color rgba(255,255,255,0.8)
+    margin-left 10px
+    margin-top 0px
+    vertical-align middle
+    display inline-block
+  .uploadButton
+    float right
+    margin-top 9px
+
+div.getting-started
+  color black
+  width 360px
+  margin auto
+  margin-top 50px
+  h1
+    color black
+    padding 0
+    padding-bottom 14px
+    font-size 55px
+
+div#player
+  background-color transblack
+  border 1px solid black
+  border-radius radius radius radius radius
+  margin-top 20px
+  padding 15px
+
+  #top-line
+    // display inline-block
+    // vertical-align middle
+    height 23px
+    width 100%
+    #buttons
+      float left
+      margin-right 10px
+      div
+        float left
+        width 30px
+        i
+          padding auto
+
+    .right-buttons
+      float right
+      & > i, div
+        float right
+        margin-right 10px
+      #volume
+        float right
+        .fa-volume-up
+          float right
+    #details
+      white-space nowrap
+      text-overflow ellipsis
+      display block
+      overflow hidden
+
+  .progress
+    clear both
+    margin-top 15px
+    margin-bottom 0px
+    height 10px
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    #seekbar
+      width 100%
+      height 10px
+      margin: auto;
+      &[value]
+        -webkit-appearance none
+        appearance none
+        height 5px
+        &:hover
+          height 10px
+        &::-webkit-progress-bar
+          background-color rgba(255, 255, 255, 0.8)
+          border-radius 2px
+          box-shadow 0 2px 5px rgba(0, 0, 0, 0.25) inset
+        &::-webkit-progress-value
+          background-color purple
+          border-radius 2px
+          background-size 35px 20px, 100% 100%, 100% 100%
+
+
+div#playlist
+  margin-top 20px
+  li
+    display block
+    overflow hidden
+    list-style none
+    border 1px solid black
+    font-size 20px
+    background-color transblack
+    padding 10px
+    position relative
+    margin-top -1px
+    height 22px
+    &.hover:hover
+      background-color transblacker
+    &:first-child
+      border-radius radius radius 0 0
+    &:last-child
+      border-radius 0 0 radius radius
+    &:only-child
+      border-radius radius radius radius radius
+    .song-details
+      display block
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+
+div#autoplay
+  margin-top 20px
+  padding 10px
+  background-color transblack
+  border 1px solid black
+  border-radius radius radius radius radius
+  text-overflow ellipsis
+  overflow hidden
+  white-space nowrap
+  &:hover
+    background-color transblacker
+  span.over-container
+    display block
+    overflow hidden
+  div
+    text-overflow ellipsis
+    overflow hidden
+    white-space nowrap
+
+
+
+ul#result_list
+  list-style none
+  border 1px solid black
+  border-radius radius
+  margin auto
+  margin-top 20px
+  // background white
+
+  *
+    background none
+
+  &.hidden-ul
+    display none
+
+  li
+    border-top 1px solid black
+    position relative
+    top -1px
+
+    &.seperator
+      font-size 20px
+      background-color transblack
+      text-transform capitalize
+      padding 10px
+      span
+        font-size 85%
+        float right
+        cursor pointer
+        &:hover
+          text-decoration underline
+
+    &.infiniteLoading
+      height 22px
+      background-color transblack
+      text-align center
+      padding 10px
+
+  .result
+    min-height 150px
+    clear both
+    width 100%
+    position relative
+    background-color white
+
+    &.hidden_result
+      display none
+
+    &.no_border_result
+      border-top none
+
+    .art
+      float right
+      padding 20px
+    .details
+      text-overflow ellipsis
+      display block
+      overflow hidden
+
+    h2
+      padding-top 20px
+      padding-left 20px
+      box-sizing border-box
+      font-size 20px
+
+    span
+      color black
+      padding-left 20px
+      font-size 16px
+      white-space nowrap
+      text-overflow ellipsis
+      display inline-block
+      overflow hidden
+      max-width 100%
+
+    img
+      max-height 100px
+
+    a
+      text-overflow ellipsis
+      display inline-block
+      overflow hidden
+      max-width 100%
+      max-height 70px
+      color black
+      &:hover
+        color purple
+        text-decoration underline
+
+      &.add_button
+        position absolute
+        bottom 10px
+        border-radius 50px
+        margin-left 25px
+        cursor pointer
+        padding 10px
+        border 1px solid purple
+        color purple
+        font-size 14
+        transition border 0.3s
+        text-decoration none
+
+        &:hover
+          background-color purple
+          color white
+
+      &.add_to_playlist
+        left -10px
+      &.play_now
+        left 110px
+
+div.modal
+  background-color grey
+  border-radius radius
+  color black
+  width 400px
+  z-index 6
+  position fixed
+  padding 30px
+  top 50%
+  left 50%
+  margin-top -180px
+  margin-left -230px
+  a
+    color purple
+    &:hover
+      text-decoration underline
+  i
+    position absolute
+    padding 5px
+    right 7px
+    top 7px
+
+div.overlay
+  background-color rgba(0,0,0,0.7)
+  width 100%
+  height 100%
+  position absolute
+  top 0px
+  z-index 5
+
+
+//////////////
+//Mobile
+//////////////
+@media screen and (max-width: 450px)
+  input#createRoomName
+    width 90%
+  h1
+    font-size 50px
+  div.content
+    width 100%
+    box-sizing border-box
+    padding 100px 5px
+
+
+@media screen and (max-width: 500px)
+  div.modal-view
+    height 100%
+    width 100%
+    position absolute
+    top 0
+  div.modal
+    width 90%
+    box-sizing border-box
+    margin auto
+    position relative
+    margin-top 100px
+    left 0
+    top 0
+  li#register
+    display none
+
+@media screen and (max-width: 550px)
+  .launch-container
+    width 100%
+  section#about div.info
+    width 90%
+    div
+      display none
+  section#accounts div.info
+    h1
+      font-size 50px
+    h2
+      font-size 30px
+
+@media screen and (max-width: 700px)
+  input#createRoomName
+    font-size 33px
+  input.launch-button
+    font-size 30px
+  div.getting-started
+    width 80%
+    font-size 15px
+    h1
+      font-size 30px
+
+@media screen and (max-width: 980px)
+  section#accounts .launch-button
+    position relative
+    margin-bottom 20px
+    bottom 0px
+
+//Loader
+//http://codepen.io/boris-graeff/pen/bdBXmj
+#loader{
+  position:fixed;
+  margin: auto;
+  left:0;
+  right:0;
+  top:50%;
+  width: 275px;
+  color: black;
+  white-space: nowrap;
+
+  ul {
+    margin : 0;
+    list-style:none;
+    width:90px;
+    position : relative;
+    padding : 0;
+    height:10px;
+    margin-bottom: 10px;
+
+    li {
+      position : absolute;
+      width:2px;
+      height : 0;
+      background-color: #000;
+      bottom : 0;
+    }
+  }
+}
+
+
+@keyframes sequence1 {
+  0%{ height: 10px; }
+  50%{ height:50px; }
+  100%{ height: 10px; }
+}
+
+@keyframes sequence2 {
+  0%{ height: 20px; }
+  50%{ height: 65px; }
+  100%{ height: 20px; }
+}
+
+#loader li:nth-child(1){
+  left : 0;
+  animation: sequence1 1s ease infinite 0;
+}
+#loader li:nth-child(2){
+  left : 15px;
+  animation: sequence2 1s ease infinite 0.1s;
+}
+#loader li:nth-child(3){
+  left : 30px;
+  animation: sequence1 1s ease-in-out infinite 0.2s;
+}
+#loader li:nth-child(4){
+  left : 45px;
+  animation: sequence2 1s ease-in infinite 0.3s;
+}
+
+#loader li:nth-child(5){
+  left : 60px;
+  animation: sequence1 1s ease-in-out infinite 0.4s;
+}
+#loader li:nth-child(6){
+  left : 75px;
+  animation: sequence2 1s ease infinite 0.5s;
+}
